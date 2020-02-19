@@ -1,10 +1,34 @@
 package com.knoldus
 
-class Utilities(userList: List[User], postList: List[Post],  commentsList: List[Comment]) {
-  val postPerUser: List[UsersAndPosts] = ModelData.postPerUser(userList, postList)
-  val commentsPerPost: List[PostsAndComments] = ModelData.commentsPerPost(postList, commentsList)
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.duration._
+import scala.concurrent.{Await, Future}
+
+object Utilities {
+
+  val postPerUserList: Future[List[UsersAndPosts]] = for {
+    listOfUser <- Users.getData
+    listOfPost <- Posts.getData
+  } yield ModelData.postPerUser(listOfUser, listOfPost)
+
+  val userWithMaxPosts: Future[String] = postPerUserList.map(x => getUserWithMaxPosts(x))
 
 
-  val userWithMaxPosts: String = postPerUser.sorted.reverse.head.user.name
-  val userWithMaxCommentsOnPost: List[User] = userList.filter(_.id==commentsPerPost.sorted.reverse.head.post.userId)
+  val commentsPerPostList: Future[List[PostsAndComments]] = for {
+    listOfPost <- Posts.getData
+    listOfComments <- Comments.getData
+  } yield ModelData.commentsPerPost(listOfPost, listOfComments)
+
+  val userWithMaxCommentsOnPost: Future[String] = Users.getData.flatMap(x => {
+    commentsPerPostList.map(y => getUserWithMaxCommentsOnPost(x, y))
+  })
+
+  def getUserWithMaxPosts(list: List[UsersAndPosts]): String = {
+    list.sorted.reverse.head.user.name
+  }
+
+  def getUserWithMaxCommentsOnPost(userList: List[User], list: List[PostsAndComments]): String = {
+    userList.filter(_.id == list.sorted.reverse.head.post.userId).head.name
+  }
+
 }

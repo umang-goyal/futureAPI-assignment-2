@@ -14,24 +14,24 @@ case class Post(userId: String, id: String, title:String, body:String)
 
 
 object JsonDataParser {
-  implicit val formats = DefaultFormats
+  implicit val formats: DefaultFormats.type = DefaultFormats
   def parseUser(jsonData: String): List[User] = {
     val parsedJsonData = net.liftweb.json.parse(jsonData)
-    (parsedJsonData).children map { userData =>
+    parsedJsonData.children map { userData =>
       userData.extract[User]
     }
   }
 
   def parseComments(jsonData: String): List[Comment]={
     val parsedJsonData = net.liftweb.json.parse(jsonData)
-    (parsedJsonData).children map { commentData =>
+    parsedJsonData.children map { commentData =>
       commentData.extract[Comment]
     }
   }
 
   def parsePosts(jsonData: String): List[Post]={
     val parsedJsonData = net.liftweb.json.parse(jsonData)
-    (parsedJsonData).children map { postData =>
+    parsedJsonData.children map { postData =>
       postData.extract[Post]
     }
   }

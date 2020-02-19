@@ -11,9 +11,9 @@ object JsonFile {
 
   def getFeeds(url: String): String = {
     val request = new HttpGet(url)
-    val client = HttpClientBuilder.create().build();
+    val client = HttpClientBuilder.create().build()
     val response = client.execute(request)
-    IOUtils.toString(response.getEntity().getContent())
+    IOUtils.toString(response.getEntity.getContent)
   }
 
 }
