@@ -1,5 +1,17 @@
 package com.knoldus
 
+
+case class Geo(lat : String,lng : String)
+case class Address(street : String,suite : String,city : String,zipcode : String,geo : Geo)
+case class Company(name : String,catchPhrase : String,bs : String)
+case class User(id : String,name : String,username : String,email : String,address: Address,phone : String,website: String,company: Company)
+
+case class Comment(postId: String, id: String, name:String, email:String, body:String)
+
+case class Post(userId: String, id: String, title:String, body:String)
+
+
+
 case class UsersAndPosts(user: User, posts: List[Post]) extends Ordered[UsersAndPosts] {
   def compare(that: UsersAndPosts): Int = this.posts.length compare that.posts.length
 }

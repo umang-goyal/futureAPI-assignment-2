@@ -3,6 +3,7 @@ package com.knoldus
 import org.scalatest.flatspec.AsyncFlatSpec
 
 class UtilitiesSpec extends AsyncFlatSpec{
+
   "Run test" should "give user name with max post" in {
     Utilities.userWithMaxPosts.map(res => assert(res == "Clementina DuBuque"))
   }

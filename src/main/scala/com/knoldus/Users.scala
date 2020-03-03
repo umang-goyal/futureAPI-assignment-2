@@ -4,9 +4,10 @@ import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
 object Users {
-  def getData: Future[List[User]] = {
+
+  def getData(url: String): Future[List[User]] = {
     val userData: Future[String] = Future {
-      JsonFile.getFeeds("https://jsonplaceholder.typicode.com/users")
+      JsonFile.getFeeds(url)
     }
 
 

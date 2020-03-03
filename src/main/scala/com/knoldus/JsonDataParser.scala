@@ -2,16 +2,6 @@ package com.knoldus
 
 import net.liftweb.json._
 
-case class Geo(lat : String,lng : String)
-case class Address(street : String,suite : String,city : String,zipcode : String,geo : Geo)
-case class Company(name : String,catchPhrase : String,bs : String)
-
-case class User(id : String,name : String,username : String,email : String,address: Address,phone : String,website: String,company: Company)
-
-case class Comment(postId: String, id: String, name:String, email:String, body:String)
-
-case class Post(userId: String, id: String, title:String, body:String)
-
 
 object JsonDataParser {
   implicit val formats: DefaultFormats.type = DefaultFormats
