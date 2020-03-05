@@ -10,19 +10,20 @@ import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.duration._
 
 
-class CommentsSpec extends AnyFunSuite with MockFactory{
+class CommentsSpec extends AnyFunSuite with MockFactory {
   implicit val formats: DefaultFormats.type = DefaultFormats
-  val c: Comment = Comment("1", "2", "3", "4", "5")
-  val mockedJsonString: String = write(c)
-  val mockedCommentsList = List(c)
+  val comment: Comment = Comment("1", "2", "3", "4", "5")
+  val mockedJsonString: String = write(comment)
+  val mockedCommentsList = List(comment)
 
   test("Comments unit Test") {
     val mockJsonFile = mock[JsonFile]
     val mockJsonDataParser = mock[JsonDataParser]
     val comments = new Comments(mockJsonFile, mockJsonDataParser)
     (mockJsonFile getFeeds _).expects("https://jsonplaceholder.typicode.com/comments").returning(mockedJsonString)
-    (mockJsonDataParser parseComments  _).expects(mockedJsonString).returning(mockedCommentsList)
+    (mockJsonDataParser parseComments _).expects(mockedJsonString).returning(mockedCommentsList)
     val res = Await.result(comments.getData("https://jsonplaceholder.typicode.com/comments"), 1.seconds)
+    // variable res is completely useless but without is the test fails
     comments.getData("https://jsonplaceholder.typicode.com/comments").map(res => assert(res == mockedCommentsList))
   }
 }

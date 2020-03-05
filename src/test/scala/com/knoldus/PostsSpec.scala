@@ -11,9 +11,9 @@ import scala.concurrent.duration._
 
 class PostsSpec extends AnyFunSuite with MockFactory {
   implicit val formats: DefaultFormats.type = DefaultFormats
-  val p: Post = Post("1", "2", "3", "4")
-  val mockedJsonString: String = write(p)
-  val mockedPostsList = List(p)
+  val post: Post = Post("1", "2", "3", "4")
+  val mockedJsonString: String = write(post)
+  val mockedPostsList = List(post)
 
 
   test("Posts unit Test") {
@@ -22,6 +22,7 @@ class PostsSpec extends AnyFunSuite with MockFactory {
     val posts = new Posts(mockJsonFile, mockJsonDataParser)
     (mockJsonFile getFeeds _).expects("https://jsonplaceholder.typicode.com/posts").returning(mockedJsonString)
     (mockJsonDataParser parsePosts _).expects(mockedJsonString).returning(mockedPostsList)
+    // variable res is completely useless but without is the test fails
     val res = Await.result(posts.getData("https://jsonplaceholder.typicode.com/posts"), 1.seconds)
     posts.getData("https://jsonplaceholder.typicode.com/posts").map(res => assert(res == mockedPostsList))
   }

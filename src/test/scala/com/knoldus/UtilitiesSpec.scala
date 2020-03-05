@@ -2,7 +2,7 @@ package com.knoldus
 
 import org.scalatest.flatspec.AsyncFlatSpec
 
-class UtilitiesSpec extends AsyncFlatSpec{
+class UtilitiesSpec extends AsyncFlatSpec {
 
   val jsonFile = new JsonFile
   val jsonDataParser = new JsonDataParser

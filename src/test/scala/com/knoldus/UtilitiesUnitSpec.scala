@@ -1,13 +1,11 @@
 package com.knoldus
 
-import net.liftweb.json.DefaultFormats
-import net.liftweb.json.Serialization.write
 import org.scalamock.scalatest.MockFactory
 import org.scalatest.funsuite.AnyFunSuite
 
-import scala.concurrent.{Await, Future}
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.duration._
+import scala.concurrent.{Await, Future}
 
 class UtilitiesUnitSpec extends AnyFunSuite with MockFactory {
   //implicit val formats: DefaultFormats.type = DefaultFormats
@@ -29,27 +27,26 @@ class UtilitiesUnitSpec extends AnyFunSuite with MockFactory {
       Comment("2", "4", "3", "4", "5"),
       Comment("3", "5", "3", "4", "5"))
   }
-  test("should return user with max post"){
+  test("should return user with max post") {
     val mockUsers = mock[Users]
     val mockPosts = mock[Posts]
     val mockComments = mock[Comments]
 
-    val utilities = new Utilities(mockUsers,mockPosts,mockComments)
-    (mockUsers getData _ ).expects("https://jsonplaceholder.typicode.com/users").returning(StubUserList).once()
+    val utilities = new Utilities(mockUsers, mockPosts, mockComments)
+    (mockUsers getData _).expects("https://jsonplaceholder.typicode.com/users").returning(StubUserList).once()
     (mockPosts getData _).expects("https://jsonplaceholder.typicode.com/posts").returning(StubPostList).once()
     (mockComments getData _).expects("https://jsonplaceholder.typicode.com/comments").returning(StubCommentsList).once()
     val res = Await.result(utilities.userWithMaxPosts, 10.seconds)
-    println(res)
     utilities.userWithMaxPosts.map(res => assert(res == "1"))
   }
 
-  test("should return user with max comments on post"){
+  test("should return user with max comments on post") {
     val mockUsers = mock[Users]
     val mockPosts = mock[Posts]
     val mockComments = mock[Comments]
 
-    val utilities = new Utilities(mockUsers,mockPosts,mockComments)
-    (mockUsers getData _ ).expects("https://jsonplaceholder.typicode.com/users").returning(StubUserList).once()
+    val utilities = new Utilities(mockUsers, mockPosts, mockComments)
+    (mockUsers getData _).expects("https://jsonplaceholder.typicode.com/users").returning(StubUserList).once()
     (mockPosts getData _).expects("https://jsonplaceholder.typicode.com/posts").returning(StubPostList).once()
     (mockComments getData _).expects("https://jsonplaceholder.typicode.com/comments").returning(StubCommentsList).once()
     val res = Await.result(utilities.userWithMaxCommentsOnPost, 1.seconds)
