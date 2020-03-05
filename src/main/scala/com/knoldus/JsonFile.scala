@@ -4,7 +4,7 @@ import org.apache.commons.io.IOUtils
 import org.apache.http.client.methods.HttpGet
 import org.apache.http.impl.client.HttpClientBuilder
 
-object JsonFile {
+class JsonFile {
 //  private val homeURL = "https://graph.facebook.com/v2.0/"
 //  private val accessToken = "CAAVHCxa"
 //  private val url = s"$homeURL${"25"}/feed?method=GET&format=json&access_token=${accessToken}"\

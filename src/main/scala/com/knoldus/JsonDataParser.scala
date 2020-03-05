@@ -3,7 +3,7 @@ package com.knoldus
 import net.liftweb.json._
 
 
-object JsonDataParser {
+class JsonDataParser {
   implicit val formats: DefaultFormats.type = DefaultFormats
   def parseUser(jsonData: String): List[User] = {
     val parsedJsonData = net.liftweb.json.parse(jsonData)
