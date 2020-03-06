@@ -15,3 +15,5 @@ libraryDependencies += "org.twitter4j" % "twitter4j-stream" % "4.0.6"
 libraryDependencies += "org.apache.httpcomponents" % "httpclient" % "4.5.11"
 
 libraryDependencies += "com.typesafe" % "config" % "1.4.0"
+
+libraryDependencies += "org.mockito" %% "mockito-scala" % "1.11.4" % Test
