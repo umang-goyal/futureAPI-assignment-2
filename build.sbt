@@ -17,3 +17,5 @@ libraryDependencies += "org.scalamock" %% "scalamock" % "4.4.0" % Test
 libraryDependencies += "org.scalatest" %% "scalatest" % "3.1.0" % Test
 
 //libraryDependencies ++= Seq("org.scalatest" %% "scalatest" % "3.0.4" % "test","org.mockito" % "mockito-core" % "3.2.4")
+
+libraryDependencies += "org.mockito" %% "mockito-scala" % "1.11.4" % Test

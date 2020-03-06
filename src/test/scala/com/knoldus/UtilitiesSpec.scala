@@ -9,7 +9,8 @@ class UtilitiesSpec extends AsyncFlatSpec {
   val users = new Users(jsonFile, jsonDataParser)
   val posts = new Posts(jsonFile, jsonDataParser)
   val comments = new Comments(jsonFile, jsonDataParser)
-  val utilities = new Utilities(users, posts, comments)
+  val modelData = new ModelData
+  val utilities = new Utilities(users, posts, comments, modelData)
 
   "Run test" should "give user name with max post" in {
     utilities.userWithMaxPosts.map(res => assert(res == "Clementina DuBuque"))

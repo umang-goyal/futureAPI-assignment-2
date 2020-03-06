@@ -14,7 +14,7 @@ case class PostsAndComments(post: Post, comments: List[Comment]) extends Ordered
   def compare(that: PostsAndComments): Int = this.comments.length compare that.comments.length
 }
 
-object ModelData {
+class ModelData {
 
   def postPerUser(userList: List[User], postList: List[Post]): List[UsersAndPosts] = {
 

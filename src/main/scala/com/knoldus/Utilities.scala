@@ -3,29 +3,29 @@ package com.knoldus
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-class Utilities(users: Users, posts: Posts, comments: Comments) {
+class Utilities(users: Users, posts: Posts, comments: Comments, modelData: ModelData) {
 
   val fallbackFuture: Future[String] = Future {
     "Something went wrong"
   }
 
-  val postPerUserList: Future[List[UsersAndPosts]] = for {
+  def postPerUserList: Future[List[UsersAndPosts]] = for {
     listOfUser <- users.getData("https://jsonplaceholder.typicode.com/users")
     listOfPost <- posts.getData("https://jsonplaceholder.typicode.com/posts")
-  } yield ModelData.postPerUser(listOfUser, listOfPost)
+  } yield modelData.postPerUser(listOfUser, listOfPost)
 
-  val userWithMaxPosts: Future[String] = postPerUserList.map(x => getUserWithMaxPosts(x)) fallbackTo fallbackFuture
+  def userWithMaxPosts: Future[String] = postPerUserList.map(x => getUserWithMaxPosts(x)) fallbackTo fallbackFuture
 
   private def getUserWithMaxPosts(list: List[UsersAndPosts]): String = {
     list.sorted.reverse.head.user.name
   }
 
-  val commentsPerPostList: Future[List[PostsAndComments]] = for {
+  def commentsPerPostList: Future[List[PostsAndComments]] = for {
     listOfPost <- posts.getData("https://jsonplaceholder.typicode.com/posts")
     listOfComments <- comments.getData("https://jsonplaceholder.typicode.com/comments")
-  } yield ModelData.commentsPerPost(listOfPost, listOfComments)
+  } yield modelData.commentsPerPost(listOfPost, listOfComments)
 
-  val userWithMaxCommentsOnPost: Future[String] = users.getData("https://jsonplaceholder.typicode.com/users").flatMap(x => {
+  def userWithMaxCommentsOnPost: Future[String] = users.getData("https://jsonplaceholder.typicode.com/users").flatMap(x => {
     commentsPerPostList.map(y => getUserWithMaxCommentsOnPost(x, y))
   }) fallbackTo fallbackFuture
 
