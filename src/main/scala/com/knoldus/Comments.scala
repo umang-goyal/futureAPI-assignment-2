@@ -10,7 +10,6 @@ class Comments(jsonFile: JsonFile, jsonDataParser: JsonDataParser) {
     }
 
     val futureListOfComments = commentsData map (x => jsonDataParser.parseComments(x))
-
     futureListOfComments
   }
 }

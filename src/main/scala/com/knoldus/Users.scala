@@ -10,10 +10,7 @@ class Users(jsonFile: JsonFile, jsonDataParser: JsonDataParser) {
       jsonFile.getFeeds(url)
     }
 
-
     val futureListOfUser = userData map (x => jsonDataParser.parseUser(x))
-
     futureListOfUser
   }
 }
-

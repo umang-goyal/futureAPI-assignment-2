@@ -1,12 +1,11 @@
 package com.knoldus
 
 import org.mockito.MockitoSugar
-import org.scalatest.funsuite.AnyFunSuite
+import org.scalatest.flatspec.AsyncFlatSpec
 
-import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-class UtilitiesUnitSpec extends AnyFunSuite with MockitoSugar {
+class UtilitiesUnitSpec extends AsyncFlatSpec with MockitoSugar {
   val user1: User = User("1", "1", "3", "4", Address("5", "6", "7", "8", Geo("9", "10")), "11", "12", Company("13", "14", "15"))
   val user2: User = User("2", "2", "3", "4", Address("5", "6", "7", "8", Geo("9", "10")), "11", "12", Company("13", "14", "15"))
   val user3: User = User("3", "3", "3", "4", Address("5", "6", "7", "8", Geo("9", "10")), "11", "12", Company("13", "14", "15"))
@@ -28,8 +27,7 @@ class UtilitiesUnitSpec extends AnyFunSuite with MockitoSugar {
   val mockModelData: ModelData = mock[ModelData]
   val utilities = new Utilities(mockUsers, mockPosts, mockComments, mockModelData)
 
-  test("should return user with max post") {
-
+  "run test" should "return with max post" in {
     when(mockUsers.getData("https://jsonplaceholder.typicode.com/users")).thenReturn(Future {
       StubUserList
     })
@@ -42,10 +40,10 @@ class UtilitiesUnitSpec extends AnyFunSuite with MockitoSugar {
     when(mockModelData.postPerUser(StubUserList, StubPostList)).thenReturn(List(UsersAndPosts(user1, List(post1)),
       UsersAndPosts(user2, List(post2)),
       UsersAndPosts(user3, List(post3))))
-    utilities.userWithMaxPosts.map(res => assert(res == "1"))
+    utilities.userWithMaxPosts.map(res => assert(res == "3"))
   }
 
-  test("should return user with max comments on post") {
+  "run test" should "return user with max comments on post" in {
     when(mockUsers.getData("https://jsonplaceholder.typicode.com/users")).thenReturn(Future {
       StubUserList
     })

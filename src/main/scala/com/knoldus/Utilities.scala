@@ -29,7 +29,6 @@ class Utilities(users: Users, posts: Posts, comments: Comments, modelData: Model
     commentsPerPostList.map(y => getUserWithMaxCommentsOnPost(x, y))
   }) fallbackTo fallbackFuture
 
-
   private def getUserWithMaxCommentsOnPost(userList: List[User], list: List[PostsAndComments]): String = {
     userList.filter(_.id == list.sorted.reverse.head.post.userId).head.name
   }

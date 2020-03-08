@@ -3,11 +3,9 @@ package com.knoldus
 import net.liftweb.json.DefaultFormats
 import net.liftweb.json.Serialization.write
 import org.mockito.MockitoSugar
-import org.scalatest.funsuite.AnyFunSuite
+import org.scalatest.flatspec.AsyncFlatSpec
 
-import scala.concurrent.ExecutionContext.Implicits.global
-
-class PostsSpec extends AnyFunSuite with MockitoSugar {
+class PostsSpec extends AsyncFlatSpec with MockitoSugar {
   implicit val formats: DefaultFormats.type = DefaultFormats
   val post: Post = Post("1", "2", "3", "4")
   val mockedJsonString: String = write(post)
@@ -16,8 +14,8 @@ class PostsSpec extends AnyFunSuite with MockitoSugar {
   val mockJsonDataParser: JsonDataParser = mock[JsonDataParser]
   val posts = new Posts(mockJsonFile, mockJsonDataParser)
 
-  test("Returns list of post") {
 
+  "run test" should "return list of post" in {
     when(mockJsonFile.getFeeds("https://jsonplaceholder.typicode.com/posts")).thenReturn(mockedJsonString)
     when(mockJsonDataParser.parsePosts(mockedJsonString)).thenReturn(mockedPostsList)
     posts.getData("https://jsonplaceholder.typicode.com/posts").map(res => assert(res == mockedPostsList))
