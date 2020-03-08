@@ -1,29 +1,22 @@
 package com.knoldus
 
-import twitter4j.Twitter
-
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import scala.language.implicitConversions
 
-object MyTwitterExtractor extends TwitterExtractor {
-
-  val twitter: Twitter = MyTwitterConfig.twitter
+class TwitterOperations(twitterData: MyTwitterData) {
 
   def tweetsCount(hashTag: String): Future[Int] = {
-
-    val countOfTweets = getTweets(hashTag).map(tweets => tweets.length)
+    val countOfTweets = twitterData.getTweets(hashTag).map(tweets => tweets.length)
     countOfTweets
-
     }.fallbackTo(Future {
     -1
   })
 
 
   def getAvgLikesPerTweet(hashTag: String): Future[Int] = {
-
-    val tweets = getTweets(hashTag)
-    val likesCount = tweets.map(tweets => tweets.map(tweet => tweet.getFavoriteCount))
+    val tweets = twitterData.getTweets(hashTag)
+    val likesCount = tweets.map(tweets => tweets.map(tweet => tweet.favoriteCount))
     val totalLikes = likesCount.map(likesCount => likesCount.sum)
     totalLikes.flatMap(totalLikes => tweets.map(tweets => totalLikes / tweets.size))
     }
@@ -33,11 +26,10 @@ object MyTwitterExtractor extends TwitterExtractor {
 
 
   def getAvgReTweetsPerTweet(hashTag: String): Future[Int] = {
-
-    val tweets = getTweets(hashTag)
-    val reTweetCount = tweets.map(tweets => tweets.map(tweet => tweet.getRetweetCount))
-    val totalReTweetCount = reTweetCount.map(reTweetCount => reTweetCount.sum)
-    totalReTweetCount.flatMap(Count => tweets.map(tweets => Count / tweets.size))
+    val tweets = twitterData.getTweets(hashTag)
+    val reTweetCountList = tweets.map(tweets => tweets.map(tweet => tweet.reTweetCount))
+    val totalReTweetCount = reTweetCountList.map(reTweetCount => reTweetCount.sum)
+    totalReTweetCount.flatMap(Count => tweets.map(tweets => Count / tweets.length))
     }.fallbackTo(Future {
     -1
   })
